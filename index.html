@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>tony wooster</title>
+    <meta name="description" content="tony wooster">
+
+    <link rel="stylesheet" href="site.css">
+    <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <div id="outer">
+      <div id="inner">
+        <dl>
+          <dt>name</dt>
+          <dd>tony wooster</dd>
+        </dl>
+        <dl>
+          <dt>job</dt>
+          <dd>freelance engineer</dd>
+        </dl>
+        <dl>
+          <dt>email</dt>
+          <dd><span class="replace-email">me AT tonywooster DOT com</span></dd>
+        </dl>
+        <dl>
+          <dt>phone</dt>
+          <dd><span class="replace-phone">PLUS ONE DASH FIVE ZERO THREE DASH FOUR EIGHT TWO DASH EIGHT TWO FOUR SIX</span></dd>
+        </dl>
+      </div>
+    </div>
+    <script>
+      !function() {
+        function attrEscDq(str) {
+          return str.replace(/"/, '&quot;');
+        }
+
+        function htmlEsc(str) {
+          var pre = document.createElement('pre');
+          var text = document.createTextNode(str);
+          pre.appendChild(text);
+          return pre.innerHTML;
+        }
+
+        function rewrite(els, map, set) {
+          var split;
+          var i, j;
+
+          for (i = els.length; i--;) {
+            split = els[i].innerText.split(' ');
+            for (j = split.length; j--;) {
+              split[j] = map[split[j]] || split[j];
+            }
+            if (set) {
+              set(els[i], split.join(''));
+            } else {
+              els[i].innerText = split.join('');
+            }
+          }
+        }
+
+        rewrite(document.querySelectorAll('.replace-email'), {
+          AT: '@', DOT: '.'
+        }, function(el, address) {
+        el.innerHTML = '<a href="mailto:' + attrEscDq(address) + '">'
+                     + htmlEsc(address) + '</a>';
+        });
+
+        rewrite(document.querySelectorAll('.replace-phone'), {
+          PLUS: '+', DASH: '-',
+          ONE: '1', TWO: '2',   THREE: '3', FOUR: '4', FIVE: '5',
+          SIX: '6', SEVEN: '7', EIGHT: '8', NINE: '9', ZERO: '0'
+        }, function(el, num) {
+        el.innerHTML = '<a href="tel:' + attrEscDq(num) + '">'
+                     + htmlEsc(num) + '</a>';
+        });
+      }();
+    </script>
+  </body>
+</html>
