@@ -76,6 +76,11 @@ dd::after {
   content: "\",";
 }
 
+dl:last-child dd::after {
+  content: "\"";
+}
+
+
 a:link,
 a:visited,
 a:active,
